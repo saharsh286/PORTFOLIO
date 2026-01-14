@@ -1,0 +1,52 @@
+<pre>{{ shop.metafields.back_to_top.settings.value | json }}</pre>
+
+{% assign settings = shop.metafields.back_to_top.settings.value %}
+
+{% if settings and settings.enabled %}
+  <button
+    id="back-to-top-btn"
+    style="
+          position: fixed;
+          bottom: 20px;
+          {% if settings.position == 'bottom-left' %}
+            left: 20px;
+          {% else %}
+            right: 20px;
+          {% endif %}
+      background: {% if settings.color contains '#' %}{{ settings.color }}{% else %}#{{ settings.color }}{% endif %} !important;
+          color: white;
+          padding: 12px 16px;
+          border-radius: 50%;
+          border: none;
+          cursor: pointer;
+          display: none;
+          z-index: 999999;
+    "
+  >
+    ↑
+  </button>
+
+  <script>
+    const btn = document.getElementById('back-to-top-btn');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 200) {
+        btn.style.display = 'block';
+      } else {
+        btn.style.display = 'none';
+      }
+    });
+
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Back To Top Button",
+  "target": "body",
+  "settings": []
+}
+{% endschema %}
